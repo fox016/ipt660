@@ -11,27 +11,28 @@ $dsn = "mysql:host=$dbhost;dbname=$dbname"; // This is the DSN pattern for any M
 $pdo = new PDO($dsn, $dbuser, $dbpass); // This returns a PDO, which is used to talk to the MySQL DB
 
 // Insert data from user (if we got any)
-if(isset($_POST['event']) && $_POST['event'] === "addCarEvent")
+if(isset($_POST['event']))
 {
-  // This loop will turn all blanks into NULL
+  // This just converts blanks to NULLs
+  // This will prevent NULL/blank data from being inserted for required fields
   foreach($_POST as $key => $value)
   {
-    if($_POST[$key] === "") {
+    if($value === "") {
       $_POST[$key] = NULL;
     }
   }
 
-  // Insert data into database
-  $sql = "INSERT INTO cars (make, model, year, trim, color, vin) VALUES (?, ?, ?, ?, ?, ?)"; // This is a PHP string of MySQL code with ? where user input will go
-  $statement = $pdo->prepare($sql); // This takes a MySQL string as input and returns a PDOStatement - a MySQL statement that can run on the MySQL DB
-  $statement->execute(array($_POST['make'], $_POST['model'], $_POST['year'], $_POST['trim'], $_POST['color'], $_POST['vin'])); // This executes the PDOStatement and replaces the ? with user input
+  // Insert stuff into DB
+  $sql = "INSERT INTO cars (make, model, year, trim, color, vin) VALUES (?, ?, ?, ?, ?, ?)"; // Use ? where user input will go
+  $statement = $pdo->prepare($sql); // This turns that PHP string of MYSQL code into something that MySQL can use
+  $statement->execute(array($_POST['make'], $_POST['model'], $_POST['year'], $_POST['trim'], $_POST['color'], $_POST['vin'])); // This will do the insert and replace the ? with actual user input
 }
 
-// Get data from database
-$sql = "SELECT * FROM cars ORDER BY make ASC, model ASC, year DESC"; // This is a PHP string of MySQL code
-$statement = $pdo->prepare($sql); // This takes a MySQL string as input and returns a PDOStatement - a MySQL statement that can run on the MySQL DB
-$statement->execute(); // This executes the PDOStatement - it executes the MySQL code on the MySQL DB
-$cars = $statement->fetchAll(PDO::FETCH_ASSOC); // This can be used after a SELECT statement is executed to get the results of the SELECT statement
+// Get data from DB
+$sql = "SELECT * FROM cars"; // This is a PHP string of MySQL code
+$statement = $pdo->prepare($sql); // This turns that PHP string of MYSQL code into something that MySQL can use
+$statement->execute(); // This actually runs the MySQL code on your MySQL DB
+$cars = $statement->fetchAll(PDO::FETCH_ASSOC); // This will get the results of my SELECT statement and put it in an array of arrays
 
 ?>
 <!DOCTYPE HTML>
@@ -52,8 +53,9 @@ $cars = $statement->fetchAll(PDO::FETCH_ASSOC); // This can be used after a SELE
       <tbody>
       <?php
       // Use data from database to create HTML for page
-      foreach($cars as $index => $car)
+      for($carIndex=0; $carIndex < count($cars); $carIndex++)
       {
+        $car = $cars[$carIndex];
         echo "<tr><td>{$car['car_id']}</td><td>{$car['make']}</td><td>{$car['model']}</td><td>{$car['year']}</td><td>{$car['trim']}</td><td>{$car['color']}</td><td>{$car['vin']}</td><td></td></tr>";
       }
       ?>
