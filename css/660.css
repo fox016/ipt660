@@ -1,0 +1,29 @@
+body {
+  padding:0;
+  margin:0;
+  font-family: sans-serif;
+}
+h1 {
+  width:100%;
+  background:#333;
+  color:#eee;
+  padding:10px 20px;
+  margin:0;
+}
+#carTable {
+  margin:20px;
+  border-collapse:collapse;
+  font-size:1.2em;
+}
+#carTable thead th {
+  text-align:left;
+  background:#333;
+  color:#eee;
+  padding:10px 20px;
+  border:1px solid #333;
+}
+#carTable tbody td {
+  color:#333;
+  padding:10px 20px;
+  border:1px solid #333;
+}
