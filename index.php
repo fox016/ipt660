@@ -17,6 +17,7 @@ if(isset($_POST['event']))
   // This will prevent NULL/blank data from being inserted for required fields
   foreach($_POST as $key => $value)
   {
+    $_POST[$key] = strip_tags($value); // This will make it so I can't put HTML in the field
     if($value === "") {
       $_POST[$key] = NULL;
     }
