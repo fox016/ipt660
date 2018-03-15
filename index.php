@@ -47,7 +47,7 @@ $cars = $statement->fetchAll(PDO::FETCH_ASSOC); // This will get the results of 
   <h1>
     My Cars
   </h1>
-  <form method='POST' action='./'>
+  <form method='POST' action='./' onsubmit="return validateForm();">
     <input type='hidden' name='event' value='addCarEvent' />
     <table id='carTable'>
       <thead><tr><th>ID</th><th>Make</th><th>Model</th><th>Year</th><th>Trim</th><th>Color</th><th>VIN</th><th>Action</th></tr></thead>
@@ -62,12 +62,12 @@ $cars = $statement->fetchAll(PDO::FETCH_ASSOC); // This will get the results of 
       ?>
         <tr>
           <td></td>
-          <td><input type='text' name='make' placeholder='REQUIRED'></td>
-          <td><input type='text' name='model' placeholder='REQUIRED'></td>
-          <td><input type='number' name='year' placeholder='REQUIRED'></td>
-          <td><input type='text' name='trim' placeholder='OPTIONAL'></td>
-          <td><input type='text' name='color' placeholder='OPTIONAL'></td>
-          <td><input type='text' name='vin' placeholder='OPTIONAL'></td>
+          <td><input type='text' name='make' id='make' placeholder='REQUIRED'></td>
+          <td><input type='text' name='model' id='model' placeholder='REQUIRED'></td>
+          <td><input type='number' name='year' id='year' placeholder='REQUIRED'></td>
+          <td><input type='text' name='trim' id='trim' placeholder='OPTIONAL'></td>
+          <td><input type='text' name='color' id='color' placeholder='OPTIONAL'></td>
+          <td><input type='text' name='vin' id='vin' placeholder='OPTIONAL'></td>
           <td><button type='submit'>Add Car</button></td>
         </tr>
       </tbody>
